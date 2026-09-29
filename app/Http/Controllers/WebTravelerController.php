@@ -54,7 +54,8 @@ class WebTravelerController extends Controller
         ]);
 
         if ($request->hasFile('product_image')) {
-            $data['product_image'] = Storage::disk('public')->url($request->file('product_image')->store('trip-products', 'public'));
+            $disk = config('filesystems.public_disk', 'public');
+            $data['product_image'] = Storage::disk($disk)->url($request->file('product_image')->store('trip-products', $disk));
         }
         $data['product_items'] = $data['products'];
         unset($data['products']);
